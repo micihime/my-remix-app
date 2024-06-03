@@ -8,7 +8,9 @@
     "dev": "remix vite:dev",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "db:migrations": "drizzle-kit generate:sqlite --out ./app/drizzle/migrations --schema ./app/drizzle/schema.server.ts"
+
   },
   "dependencies": {
     "@remix-run/node": "^2.9.2",
