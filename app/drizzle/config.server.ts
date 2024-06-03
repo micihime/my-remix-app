@@ -9,7 +9,7 @@ if (!process.env.DATABASE_PATH) {
 }
 
 export const db = drizzle(
-  new Database(process.env.DATABASE_PATH),
+  new Database("/data/sqlite.db"), // new Database(process.env.DATABASE_PATH),
 )
 
 // Automatically run migrations on startup
