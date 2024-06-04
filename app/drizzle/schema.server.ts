@@ -30,6 +30,7 @@ export const people = sqliteTable("people", {
   gender: text("gender", { enum: ["value1", "value2"] }), //You can define { enum: ["value1", "value2"] } config to infer insert and select types, it won’t check runtime values.
   blob: blob('blob', { mode: 'buffer' }),
   isSomething: integer("isSomething", { mode: "boolean" }),
+  itemId: integer("item_id").references(() => items.id),
   createdAt: text("createdAt")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
