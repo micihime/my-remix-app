@@ -37,3 +37,35 @@ export const people = sqliteTable("people", {
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
 })
+
+export const bartenders = sqliteTable("bartenders", {
+  id: integer("id").primaryKey(),
+  name: text("name")
+})
+
+export const customers = sqliteTable("customers", {
+  id: integer("id").primaryKey(),
+  name: text("name")
+})
+
+ export const drinks = sqliteTable("drinks", {
+  id: integer("id").primaryKey(),
+  name: text("name"),
+  price: integer("price")
+})
+
+ export const ingredients = sqliteTable("ingredients", {
+  id: integer("id").primaryKey(),
+  name: text("name"),
+  drinkId: integer("drink_id").references(() => drinks.id)
+})
+
+ export const orders = sqliteTable("customer_bartender_drinks", {
+  id: integer("id").primaryKey(),
+  bartenderId: integer("bartender_id").references(() => bartenders.id),
+  customerId: integer("customer_id").references(() => customers.id),
+  drinkId: integer("drink_id").references(() => drinks.id),
+  createdAt: text("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`)
+ })
