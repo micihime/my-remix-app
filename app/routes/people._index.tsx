@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 import { db } from "~/drizzle/config.server";
 import { people } from "~/drizzle/schema.server";
@@ -24,6 +24,16 @@ export default function People() {
           <li key={person.id}>{person.name}</li>
         ))}
       </ul>
+      <p>
+        <Link to="/addperson">
+          Add a Person
+        </Link>
+      </p>
+      <p>
+        <Link to="/">
+          Back Home
+        </Link>
+      </p>
     </div>
   )
 }

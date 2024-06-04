@@ -24,9 +24,16 @@ export default function Items() {
           <li key={item.id}>{item.title} - {item.description}</li>
         ))}
       </ul>
-      <Link to="/additem">
-        Add an Item
-      </Link>
+      <p>
+        <Link to="/additem">
+          Add an Item
+        </Link>
+      </p>
+      <p>
+        <Link to="/">
+          Back Home
+        </Link>
+      </p>
     </div>
   )
 }
