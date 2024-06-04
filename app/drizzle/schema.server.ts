@@ -21,6 +21,7 @@ export const items = sqliteTable("items", {
 export const people = sqliteTable("people", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
+  address: text("address"),
   createdAt: text("createdAt")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),

@@ -15,6 +15,13 @@
       "when": 1717496497131,
       "tag": "0001_cheerful_wilson_fisk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1717497830358,
+      "tag": "0002_known_mother_askani",
+      "breakpoints": true
     }
   ]
 }
