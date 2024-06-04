@@ -21,7 +21,7 @@ export default function People() {
       <h1> People </h1>
       <ul>
         {people.data.map((person) => (
-          <li key={person.id}>{person.name}</li>
+          <li key={person.id}>{person.name}, living at {person.address}</li>
         ))}
       </ul>
       <p>

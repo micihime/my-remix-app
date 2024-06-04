@@ -13,6 +13,9 @@ export default function AddPerson() {
         <p>
           <input type="name" name="name" />
         </p>
+        <p>
+          <input type="address" name="address" />
+        </p>
         <button type="submit">Add</button>
       </Form>
     </div>
@@ -22,9 +25,10 @@ export default function AddPerson() {
 export async function action({ request, }: ActionFunctionArgs) {
   const formData = await request.formData();
   const name = String(formData.get("name"));
+  const address = String(formData.get("address"));
   //console.log(name);
   
-  db.insert(people).values({ name: name }).run()
+  db.insert(people).values({ name: name, address: address }).run()
   
   return redirect("/people");
 }
