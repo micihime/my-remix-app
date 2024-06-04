@@ -10,6 +10,10 @@ Run the Vite dev server:
 npm run dev
 ```
 
+### Resources used
+[Remix + Drizzle + SQLite](https://www.jacobparis.com/content/remix-drizzle-sqlite)
+[Form validation](https://remix.run/docs/en/main/guides/form-validation#step-1-setting-up-the-signup-form)
+
 ## Deployment
 
 First, build your app for production:
