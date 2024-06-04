@@ -13,6 +13,7 @@ npm run dev
 ### Resources used
 [Remix + Drizzle + SQLite example](https://www.jacobparis.com/content/remix-drizzle-sqlite)
 [Drizzle + SQLite docs](https://orm.drizzle.team/docs/sql-schema-declaration)
+[Schema inpriration](https://medium.com/@lukepierotti/running-a-bar-how-to-model-many-to-many-relationships-in-sqlite3-8a574e5fdd26)
 [Form validation - ](https://remix.run/docs/en/main/guides/form-validation#step-1-setting-up-the-signup-form)
 
 ## Deployment
