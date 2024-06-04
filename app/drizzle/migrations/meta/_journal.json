@@ -29,13 +29,6 @@
       "when": 1717502368266,
       "tag": "0003_square_vision",
       "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1717502850450,
-      "tag": "0004_mysterious_killer_shrike",
-      "breakpoints": true
     }
   ]
 }
