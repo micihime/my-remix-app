@@ -1,18 +1,8 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 
 import { db } from "~/drizzle/config.server";
 import { items } from "~/drizzle/schema.server";
-
-export async function action({
-  request,
-}: ActionFunctionArgs) {
-  console.log(request)
-  db.insert(items).values({ title: "Item title" }).run()
-  return {
-    success: true,
-  }
-}
 
 export async function loader({
   request,
@@ -31,12 +21,12 @@ export default function Items() {
       <h1> Items </h1>
       <ul>
         {items.data.map((item) => (
-          <li key={item.id}>{item.title}</li>
+          <li key={item.id}>{item.title} - {item.description}</li>
         ))}
       </ul>
-      <Form method="POST">
-        <input type="submit" value="Submit" />
-      </Form>
+      <Link to="/additem">
+        Add an Item
+      </Link>
     </div>
   )
 }
