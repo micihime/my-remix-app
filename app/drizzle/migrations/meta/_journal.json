@@ -8,6 +8,13 @@
       "when": 1717428386120,
       "tag": "0000_sour_wither",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1717496497131,
+      "tag": "0001_cheerful_wilson_fisk",
+      "breakpoints": true
     }
   ]
 }

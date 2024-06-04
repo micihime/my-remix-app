@@ -17,3 +17,14 @@ export const items = sqliteTable("items", {
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
 })
+
+export const people = sqliteTable("people", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull(),
+  createdAt: text("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: text("updatedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+})

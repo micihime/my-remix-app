@@ -24,6 +24,11 @@ export default function Index() {
           </Link>
         </li>
         <li>
+          <Link to="/people">
+            People
+          </Link>
+        </li>
+        <li>
           <Link to="/signup">
             Test form
           </Link>
