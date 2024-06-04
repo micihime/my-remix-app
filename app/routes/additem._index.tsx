@@ -2,6 +2,8 @@ import { json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 
 import type { ActionFunctionArgs } from "@remix-run/node";
+import { db } from "~/drizzle/config.server";
+import { items } from "~/drizzle/schema.server";
 
 export default function AddItem() {
   return (
@@ -22,10 +24,11 @@ export default function AddItem() {
 
 export async function action({ request, }: ActionFunctionArgs) {
   const formData = await request.formData();
-
   const title = String(formData.get("title"));
   const description = String(formData.get("description"));
-  console.log(title + " - " + description);
+  //console.log(title + " - " + description);
+  
+  db.insert(items).values({ title: title, description: description }).run()
   
   return redirect("/items");
 }
