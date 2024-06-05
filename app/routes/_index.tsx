@@ -24,6 +24,11 @@ export default function Index() {
           </Link>
         </li> 
         <li>
+          <Link to="/recipes">
+            Recipes
+          </Link>
+        </li>  
+        <li>
           <Link to="/items">
             Items
           </Link>
