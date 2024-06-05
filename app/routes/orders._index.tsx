@@ -14,7 +14,7 @@ export async function loader({ request, }: LoaderFunctionArgs) {
 
   const ordersAll = await ordersAllSubquery.orderBy(asc(customers.id), desc(drinks.price))
 
-  const customerDrinkCount = await db.select({
+  const customerOverview = await db.select({
     customerId: customers.id,
     customer: customers.name,
     drinkCount: sql<number>`cast(count(${drinks.id}) as int)`,
@@ -28,7 +28,7 @@ export async function loader({ request, }: LoaderFunctionArgs) {
 
   return json({
     ordersAll,
-    customerDrinkCount
+    customerOverview
   })
 }
 
@@ -39,7 +39,7 @@ export default function Items() {
     <div>
       <h1> Customer overview </h1>
       <ul>
-        {data.customerDrinkCount.map(customer => (
+        {data.customerOverview.map(customer => (
           <li key={customer.customerId}>{customer.customer} drank {customer.drinkCount} drinks for {customer.amountSpent} in total</li>
         ))}
       </ul>
