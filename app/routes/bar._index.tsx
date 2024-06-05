@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { eq, gte, lt, ne, not, sql } from "drizzle-orm";
+import { and, eq, gte, lt, ne, not, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3"
 
 import { db } from "~/drizzle/config.server";
@@ -8,22 +8,8 @@ import { bartenders, customers, drinks, ingredients, orders, people, items } fro
 
 export async function loader({ request, }: LoaderFunctionArgs) {  
     //Select with all columns
-    const allDrinks = db.select().from(drinks).all()
+    const allDrinks = db.select().from(drinks).orderBy(drinks.price).all()
     
-    //Filter operators in the .where() method
-    const drinks1 = await db.select().from(drinks).where(eq(drinks.price, 5)); //= 5;
-    const drinks2 = await db.select().from(drinks).where(lt(drinks.price, 5)); //< 5;
-    const drinks3 = await db.select().from(drinks).where(gte(drinks.price, 5)); //>= 5;
-    const drinks4 = await db.select().from(drinks).where(ne(drinks.price, 5)); //<> 5;
-    //the same but different
-    const drinks5 = await db.select().from(drinks).where(not(eq(drinks.id, 4)));
-    const drinks6 = await db.select().from(drinks).where(sql`${drinks.id} <> 4`);
-    const drinks7 = await db.select().from(drinks).where(sql`not ${drinks.id} = 4`);
-
-    const drinks8 = await db.select().from(drinks).where(sql`lower(${drinks.name}) = 'mojito'`);
-
-    const filteredDrinks = drinks5;
-
     // const result = await db.query.drinks.findMany({
     //     with: {
     //       posts: true      
@@ -31,8 +17,7 @@ export async function loader({ request, }: LoaderFunctionArgs) {
     //   });
 
     return json({
-      allDrinks,
-      filteredDrinks
+      allDrinks
     })
 }
 
@@ -50,13 +35,6 @@ export default function Items() {
         ))}
       </ul>
       
-      <p>Filtered drinks</p>
-      <ul>
-        {data.filteredDrinks.map(drink => (
-          <li key={drink.id}>{drink.name}</li>
-        ))}
-      </ul>
-
       <p>
         <Link to="/">
           Back Home

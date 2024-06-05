@@ -13,11 +13,16 @@ export default function Index() {
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
       <ul>
-      <li>
+        <li>
           <Link to="/bar">
-            Bar
+            Bar Playground
           </Link>
-        </li>    
+        </li>
+        <li>
+          <Link to="/menu">
+            Menu
+          </Link>
+        </li> 
         <li>
           <Link to="/items">
             Items
