@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { and, asc, desc, eq, gt, gte, lt, ne, not, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, gte, lt, ne, not, sql, sum } from "drizzle-orm";
 
 import { db } from "~/drizzle/config.server";
 import { drinks, customers, orders } from "~/drizzle/schema.server";
@@ -18,6 +18,7 @@ export async function loader({ request, }: LoaderFunctionArgs) {
     customerId: customers.id,
     customer: customers.name,
     drinkCount: sql<number>`cast(count(${drinks.id}) as int)`,
+    amountSpent: sum(drinks.price)
   })
     .from(orders)
         .leftJoin(customers, eq(customers.id, orders.customerId))
@@ -39,7 +40,7 @@ export default function Items() {
       <h1> Customer overview </h1>
       <ul>
         {data.customerDrinkCount.map(customer => (
-          <li key={customer.customerId}>{customer.customer} drank {customer.drinkCount} drinks</li>
+          <li key={customer.customerId}>{customer.customer} drank {customer.drinkCount} drinks for {customer.amountSpent} in total</li>
         ))}
       </ul>
 
