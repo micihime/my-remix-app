@@ -16,13 +16,13 @@ export async function loader({ request, }: LoaderFunctionArgs) {
     const drinks3 = await db.select().from(drinks).where(gte(drinks.price, 5)); //>= 5;
     const drinks4 = await db.select().from(drinks).where(ne(drinks.price, 5)); //<> 5;
     //the same but different
-    const drinks5 = await db.select().from(drinks).where(not(eq(drinks.id, 42)));
+    const drinks5 = await db.select().from(drinks).where(not(eq(drinks.id, 4)));
     const drinks6 = await db.select().from(drinks).where(sql`${drinks.id} <> 4`);
     const drinks7 = await db.select().from(drinks).where(sql`not ${drinks.id} = 4`);
 
     const drinks8 = await db.select().from(drinks).where(sql`lower(${drinks.name}) = 'mojito'`);
 
-    const filteredDrinks = drinks8;
+    const filteredDrinks = drinks5;
 
     // const result = await db.query.drinks.findMany({
     //     with: {
