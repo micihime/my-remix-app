@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3"
 
 import { db } from "~/drizzle/config.server";
@@ -14,7 +15,12 @@ export async function loader({ request, }: LoaderFunctionArgs) {
         field2: people.name,
       }).from(people);
     const { field1, field2 } = peopleMin[0];
-    
+    //Using arbitrary expressions as selection fields
+    const bartendersUpper = await db.select({
+        id: bartenders.id,
+        upperName: sql<string>`upper(${bartenders.name})`,
+      }).from(bartenders);
+
     // const result = await db.query.drinks.findMany({
     //     with: {
     //       posts: true      
@@ -25,7 +31,8 @@ export async function loader({ request, }: LoaderFunctionArgs) {
       allDrinks,
       peopleMin,
       field1, 
-      field2
+      field2,
+      bartendersUpper
     })
 }
 
@@ -49,6 +56,12 @@ export default function Items() {
         ))}
       </ul>
       <p>First person ID {data.field1}, their name {data.field2}</p>
+      <p>Using arbitrary expressions as selection fields</p>
+      <ul>
+        {data.bartendersUpper.map(person => (
+          <li key={person.id}>{person.upperName}</li>
+        ))}
+      </ul>
       <p>
         <Link to="/">
           Back Home
