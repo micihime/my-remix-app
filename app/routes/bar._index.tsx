@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { sql } from "drizzle-orm";
+import { eq, gte, lt, ne, not, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3"
 
 import { db } from "~/drizzle/config.server";
@@ -9,17 +9,28 @@ import { bartenders, customers, drinks, ingredients, orders, people, items } fro
 export async function loader({ request, }: LoaderFunctionArgs) {  
     //Select with all columns
     const allDrinks = db.select().from(drinks).all()
-    //Partial select
-    const peopleMin = await db.select({
-        field1: people.id,
-        field2: people.name,
-      }).from(people);
-    const { field1, field2 } = peopleMin[0];
-    //Using arbitrary expressions as selection fields
-    const bartendersUpper = await db.select({
-        id: bartenders.id,
-        upperName: sql<string>`upper(${bartenders.name})`,
-      }).from(bartenders);
+    // //Partial select
+    // const peopleMin = await db.select({
+    //     field1: people.id,
+    //     field2: people.name,
+    //   }).from(people);
+    // const { field1, field2 } = peopleMin[0];
+    // //Using arbitrary expressions as selection fields
+    // const bartendersUpper = await db.select({
+    //     id: bartenders.id,
+    //     upperName: sql<string>`upper(${bartenders.name})`,
+    //   }).from(bartenders);
+    //Filter operators in the .where() method
+    const drinks1 = await db.select().from(drinks).where(eq(drinks.price, 5)); //= 5;
+    const drinks2 = await db.select().from(drinks).where(lt(drinks.price, 5)); //< 5;
+    const drinks3 = await db.select().from(drinks).where(gte(drinks.price, 5)); //>= 5;
+    const drinks4 = await db.select().from(drinks).where(ne(drinks.price, 5)); //<> 5;
+    //the same but different
+    const drinks5 = await db.select().from(drinks).where(not(eq(drinks.id, 42)));
+    const drinks6 = await db.select().from(drinks).where(sql`${drinks.id} <> 4`);
+    const drinks7 = await db.select().from(drinks).where(sql`not ${drinks.id} = 4`);
+
+    const drinks8 = await db.select().from(drinks).where(sql`lower(${drinks.name}) = 'mojito'`);
 
     // const result = await db.query.drinks.findMany({
     //     with: {
@@ -29,10 +40,7 @@ export async function loader({ request, }: LoaderFunctionArgs) {
 
     return json({
       allDrinks,
-      peopleMin,
-      field1, 
-      field2,
-      bartendersUpper
+      drinks1
     })
 }
 
@@ -43,25 +51,20 @@ export default function Items() {
   return (
     <div>
       <h1> Bar </h1>
-      <p>Select with all columns</p>
+      <p>All drinks</p>
       <ul>
         {data.allDrinks.map(drink => (
+          <li key={drink.id}>{drink.name}, {drink.price}</li>
+        ))}
+      </ul>
+      
+      <p>All drinks where drinks.price = 5</p>
+      <ul>
+        {data.drinks1.map(drink => (
           <li key={drink.id}>{drink.name}</li>
         ))}
       </ul>
-      <p>Partial select</p>
-      <ul>
-        {data.peopleMin.map(person => (
-          <li key={person.field1}>{person.field2}</li>
-        ))}
-      </ul>
-      <p>First person ID {data.field1}, their name {data.field2}</p>
-      <p>Using arbitrary expressions as selection fields</p>
-      <ul>
-        {data.bartendersUpper.map(person => (
-          <li key={person.id}>{person.upperName}</li>
-        ))}
-      </ul>
+
       <p>
         <Link to="/">
           Back Home
