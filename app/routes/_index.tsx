@@ -27,7 +27,12 @@ export default function Index() {
           <Link to="/recipes">
             Recipes
           </Link>
-        </li>  
+        </li> 
+        <li>
+          <Link to="/orders">
+            Orders
+          </Link>
+        </li>   
         <li>
           <Link to="/items">
             Items
