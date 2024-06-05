@@ -6,12 +6,13 @@ import { db } from "~/drizzle/config.server";
 import { drinks, customers, orders } from "~/drizzle/schema.server";
 
 export async function loader({ request, }: LoaderFunctionArgs) { 
-  //join
-  const ordersAll = await db.select()
+  //join subquery
+  const ordersAllSubquery = db.select()
     .from(orders)
     .leftJoin(customers, eq(customers.id, orders.customerId))
     .leftJoin(drinks, eq(drinks.id, orders.drinkId))
-    .orderBy(asc(customers.id), desc(drinks.price))
+    
+  const ordersAll = await ordersAllSubquery.orderBy(asc(customers.id), desc(drinks.price))
 
   return json({
     ordersAll
