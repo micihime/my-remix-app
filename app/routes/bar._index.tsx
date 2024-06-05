@@ -9,17 +9,7 @@ import { bartenders, customers, drinks, ingredients, orders, people, items } fro
 export async function loader({ request, }: LoaderFunctionArgs) {  
     //Select with all columns
     const allDrinks = db.select().from(drinks).all()
-    // //Partial select
-    // const peopleMin = await db.select({
-    //     field1: people.id,
-    //     field2: people.name,
-    //   }).from(people);
-    // const { field1, field2 } = peopleMin[0];
-    // //Using arbitrary expressions as selection fields
-    // const bartendersUpper = await db.select({
-    //     id: bartenders.id,
-    //     upperName: sql<string>`upper(${bartenders.name})`,
-    //   }).from(bartenders);
+    
     //Filter operators in the .where() method
     const drinks1 = await db.select().from(drinks).where(eq(drinks.price, 5)); //= 5;
     const drinks2 = await db.select().from(drinks).where(lt(drinks.price, 5)); //< 5;
@@ -32,6 +22,8 @@ export async function loader({ request, }: LoaderFunctionArgs) {
 
     const drinks8 = await db.select().from(drinks).where(sql`lower(${drinks.name}) = 'mojito'`);
 
+    const filteredDrinks = drinks8;
+
     // const result = await db.query.drinks.findMany({
     //     with: {
     //       posts: true      
@@ -40,7 +32,7 @@ export async function loader({ request, }: LoaderFunctionArgs) {
 
     return json({
       allDrinks,
-      drinks1
+      filteredDrinks
     })
 }
 
@@ -58,9 +50,9 @@ export default function Items() {
         ))}
       </ul>
       
-      <p>All drinks where drinks.price = 5</p>
+      <p>Filtered drinks</p>
       <ul>
-        {data.drinks1.map(drink => (
+        {data.filteredDrinks.map(drink => (
           <li key={drink.id}>{drink.name}</li>
         ))}
       </ul>
