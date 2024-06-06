@@ -1,12 +1,6 @@
 import { sql } from "drizzle-orm"
-
-import {
-  sqliteTable,
-  text,
-  integer,
-  real,
-  blob
-} from "drizzle-orm/sqlite-core"
+import { sqliteTable, text, integer, real, blob } from "drizzle-orm/sqlite-core"
+import { createInsertSchema } from "drizzle-zod"
 
 export const items = sqliteTable("items", {
   id: integer("id").primaryKey(),
@@ -60,12 +54,14 @@ export const customers = sqliteTable("customers", {
   drinkId: integer("drink_id").references(() => drinks.id)
 })
 
- export const orders = sqliteTable("customer_bartender_drinks", {
-  id: integer("id").primaryKey(),
-  bartenderId: integer("bartender_id").references(() => bartenders.id),
-  customerId: integer("customer_id").references(() => customers.id),
-  drinkId: integer("drink_id").references(() => drinks.id),
-  createdAt: text("createdAt")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`)
- })
+export const orders = sqliteTable("customer_bartender_drinks", {
+ id: integer("id").primaryKey(),
+ bartenderId: integer("bartender_id").references(() => bartenders.id),
+ customerId: integer("customer_id").references(() => customers.id),
+ drinkId: integer("drink_id").references(() => drinks.id),
+ createdAt: text("createdAt")
+   .notNull()
+   .default(sql`CURRENT_TIMESTAMP`)
+})
+
+export const insertItemsSchema = createInsertSchema(items);
