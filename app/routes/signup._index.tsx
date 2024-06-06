@@ -45,6 +45,7 @@ export async function action({ request, }: ActionFunctionArgs) {
   }
 
   if (Object.keys(errors).length > 0) {
+    console.log(errors);
     return json({ errors });
   }
 
