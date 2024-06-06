@@ -25,15 +25,17 @@ export default function AddItem() {
 
 export async function action({ request, }: ActionFunctionArgs) {
   const formData = await request.formData();
+  console.log(formData)
   const title = String(formData.get("title"));
   const description = String(formData.get("description"));
 
   try {
     const item = insertItemsSchema.parse({
+      title: title,
       description: description,
     });
 
-    await db.insert(items).values({ title: title, description: description })
+    await db.insert(items).values(item)
   } catch (err) {
     if (err instanceof z.ZodError) {
       console.log(err.issues);
