@@ -34,7 +34,7 @@ export async function action({ request, }: ActionFunctionArgs) {
 
   console.log(item);
   
-  db.insert(items).values({ title: title, description: description }).run()
+  await db.insert(items).values({ title: title, description: description })
   
   return redirect("/items");
 }
