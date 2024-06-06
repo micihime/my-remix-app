@@ -65,3 +65,4 @@ export const orders = sqliteTable("customer_bartender_drinks", {
 })
 
 export const insertItemsSchema = createInsertSchema(items);
+export const insertPeopleSchema = createInsertSchema(people);

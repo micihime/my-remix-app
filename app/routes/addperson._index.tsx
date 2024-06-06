@@ -1,9 +1,10 @@
 import { json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
-
 import type { ActionFunctionArgs } from "@remix-run/node";
+import { z } from 'zod';
+
 import { db } from "~/drizzle/config.server";
-import { people } from "~/drizzle/schema.server";
+import { insertPeopleSchema, people } from "~/drizzle/schema.server";
 
 export default function AddPerson() {
   return (
@@ -50,9 +51,27 @@ export async function action({ request, }: ActionFunctionArgs) {
 
   const name = String(formData.get("name"));
   const address = String(formData.get("address"));
-  //console.log(name);
-  
-  await db.insert(people).values({ name: name, address: address })
+  const phone = String(formData.get("phone"));
+  const job = String(formData.get("job"));
+  const salary = String(formData.get("salary"));
+  const gender = String(formData.get("gender"));
+
+  try {
+    const person = insertPeopleSchema.parse({
+      name: name,
+      address: address,
+      phone: phone,
+      job: job,
+      salary: salary,
+      gender: gender
+    });
+
+    await db.insert(people).values(person)
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      console.log(err.issues);
+    }
+  }
   
   return redirect("/people");
 }
