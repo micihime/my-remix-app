@@ -1,7 +1,8 @@
 import { json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
-
 import type { ActionFunctionArgs } from "@remix-run/node";
+import { z } from 'zod';
+
 import { db } from "~/drizzle/config.server";
 import { insertItemsSchema, items } from "~/drizzle/schema.server";
 
@@ -27,14 +28,17 @@ export async function action({ request, }: ActionFunctionArgs) {
   const title = String(formData.get("title"));
   const description = String(formData.get("description"));
 
-  const item = insertItemsSchema.parse({
-    title: title,
-    description: description,
-  });
+  try {
+    const item = insertItemsSchema.parse({
+      description: description,
+    });
 
-  console.log(item);
-  
-  await db.insert(items).values({ title: title, description: description })
+    await db.insert(items).values({ title: title, description: description })
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      console.log(err.issues);
+    }
+  }
   
   return redirect("/items");
 }
