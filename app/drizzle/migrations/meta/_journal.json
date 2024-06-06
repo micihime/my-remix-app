@@ -36,6 +36,13 @@
       "when": 1717533766447,
       "tag": "0004_odd_blink",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1717680867859,
+      "tag": "0005_spotty_spiral",
+      "breakpoints": true
     }
   ]
 }
