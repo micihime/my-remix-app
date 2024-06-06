@@ -91,5 +91,9 @@ export const userProfiles = sqliteTable("userProfiles", {
     .default(sql`CURRENT_TIMESTAMP`),
 }) 
 
+export const usersRelations = relations(users, ({ one }) => ({
+  profile: one(userProfiles),
+}));
+
 export const insertItemsSchema = createInsertSchema(items);
 export const insertPeopleSchema = createInsertSchema(people);
