@@ -1,50 +1,31 @@
-import { json, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
+import { sql } from "drizzle-orm";
 
-import type { ActionFunctionArgs } from "@remix-run/node";
+import { db } from "~/drizzle/config.server";
+import { people } from "~/drizzle/schema.server";
 
-export default function Signup() {
-  const actionData = useActionData<typeof action>();
-  
-  return (
-    <div>
-      <h1> Signup </h1>
-      <Form method="post">
-        <p>
-          <input type="email" name="email" />
-        </p>
-        <p>
-          <input type="password" name="password" />
-        </p>
-        <button type="submit">Sign Up</button>
-      </Form>
-    </div>
-  );
+export async function loader({ request, }: LoaderFunctionArgs) {
+  // use drizzle to get the data
+  const usersAll = await db.query.users.findMany({ with: { profile: true } })
+  console.log(usersAll)
+
+  return json({
+    usersAll
+  })
 }
 
-export async function action({ request, }: ActionFunctionArgs) {
-  const formData = await request.formData();
-
-  const email = String(formData.get("email"));
-  const password = String(formData.get("password"));
-  
-  const errors:any = {};
-
-  if (!email.includes("@")) {
-    errors.email = "Invalid email address";
-  }
-
-  if (password.length < 12) {
-    errors.password =
-      "Password should be at least 12 characters";
-  }
-
-  if (Object.keys(errors).length > 0) {
-    console.log(errors);
-    return json({ errors });
-  }
-
-  console.log(email + " " + password);
-
-  return redirect("/items");
+export default function People() {
+  const data = useLoaderData<typeof loader>()
+  return (
+    <div>
+      <h1> People </h1>
+      
+      <p>
+        <Link to="/">
+          Back Home
+        </Link>
+      </p>
+    </div>
+  )
 }
