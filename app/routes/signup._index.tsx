@@ -3,13 +3,12 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { sql } from "drizzle-orm";
 
 import { db } from "~/drizzle/config.server";
-import { people } from "~/drizzle/schema.server";
 
 export async function loader({ request, }: LoaderFunctionArgs) {
   // use drizzle to get the data
   const usersAll = await db.query.users.findMany({ with: { profile: true } })
-  console.log(usersAll)
-
+  console.log(usersAll) 
+  
   return json({
     usersAll
   })
