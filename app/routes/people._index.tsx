@@ -3,12 +3,12 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { sql } from "drizzle-orm";
 
 import { db } from "~/drizzle/config.server";
-import { people, users } from "~/drizzle/schema.server";
+import { people } from "~/drizzle/schema.server";
 
 export async function loader({ request, }: LoaderFunctionArgs) {
   // use drizzle to get the data
-  const usersAll = await db.query.users.findFirst()
-
+  const usersAll = await db.query.users.findFirst({ with: { profile: true } })
+  console.log(usersAll)
   const peopleAll = db.select().from(people).all()
 
   //Partial select

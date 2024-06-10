@@ -1,1 +1,0 @@
-ALTER TABLE `people` ADD `address` text;

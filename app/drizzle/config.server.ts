@@ -11,7 +11,7 @@ import * as schema from "./schema.server"
 // }
 
 export const db = drizzle(
-  new Database("/sqlite.db"), // new Database(process.env.DATABASE_PATH),
+  new Database("/sqlite2.db"), // new Database(process.env.DATABASE_PATH),
   { schema }
 )
 
