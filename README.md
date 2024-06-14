@@ -1,5 +1,7 @@
 # Welcome to Remix + Vite!
 
+My first Remix app with Drizzle, for learning purposes.
+
 📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/guides/vite) for details on supported features.
 
 ## Development
